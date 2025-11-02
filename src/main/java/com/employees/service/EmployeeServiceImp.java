@@ -1,8 +1,8 @@
 package com.employees.service;
 
-import com.employees.dao.EmployeeDao;
 import com.employees.dto.EmployeeRequest;
 import com.employees.entity.Employee;
+import com.employees.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,35 +11,36 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImp implements EmployeeService {
-    private EmployeeDao employeeDao;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeServiceImp(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
+    public EmployeeServiceImp(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDao.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
     public Employee findById(long id) {
-        return employeeDao.findById(id);
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Can not find a user with this id: " + id));
     }
 
     @Override
     @Transactional
     public Employee save(EmployeeRequest employeeRequest) {
         Employee employee = convertToEmployee(0, employeeRequest);
-        return employeeDao.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Override
     @Transactional
     public Employee update(long id, EmployeeRequest employeeRequest) {
         Employee employee = convertToEmployee(id, employeeRequest);
-        return employeeDao.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Override
@@ -54,6 +55,6 @@ public class EmployeeServiceImp implements EmployeeService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        employeeDao.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 }

@@ -1,4 +1,4 @@
-package com.employees.dao;
+package com.employees.dao_not_used;
 
 import com.employees.entity.Employee;
 
