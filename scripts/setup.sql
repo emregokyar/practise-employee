@@ -12,12 +12,11 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, password, enabled) VALUES
-    ('ana', '{noop}as', TRUE),
-    ('sydney', '{noop}as', TRUE),
-    ('emre', '{noop}as',TRUE);
+    ('ana', '{bcrypt}$2a$10$fpRkkzx7jK5SbX1L3JufmOyTNEqosFubXofA9dVV34Vd8qPKNYe4W', TRUE),
+    ('sydney', '{bcrypt}$2a$10$fpRkkzx7jK5SbX1L3JufmOyTNEqosFubXofA9dVV34Vd8qPKNYe4W', TRUE),
+    ('emre', '{bcrypt}$2a$10$fpRkkzx7jK5SbX1L3JufmOyTNEqosFubXofA9dVV34Vd8qPKNYe4W',TRUE);
 
 -- Create authorities table
--- Create authorities table (depends on users)
 CREATE TABLE authorities (
     username VARCHAR(50) NOT NULL,
     authority VARCHAR(50) NOT NULL,

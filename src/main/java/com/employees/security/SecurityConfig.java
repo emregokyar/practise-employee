@@ -47,7 +47,13 @@ public class SecurityConfig {
     // Pulling user details info from db
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+        // new JdbcUserDetailsManager(dataSource);// this works only in db, table names are users(username, password) and authorities(username, authority)
+
+        // Basic custom jdbc user details manager
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username=?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, authority FROM authorities WHERE username=?");
+        return jdbcUserDetailsManager;
     }
 
     @Bean
